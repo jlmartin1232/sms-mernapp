@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 
 
 function App() {
-
+  
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const [students, setStudents] = useState([]);
   const [name, setName] = useState("");
   const [course, setCourse] = useState("");
@@ -11,23 +12,20 @@ function App() {
   const [editingId, setEditingId] = useState(null);
   useEffect(() => {
 
-    axios
-      .get("http://localhost:5000/students")
+    axios.get(`${API_URL}/students`)
       .then((response) => {
         setStudents(response.data);
       });
 
     }, []);
     const addStudent = async () => {
-      await axios.post("http://localhost:5000/students",{
+      await axios.post(`${API_URL}/students`,{
         name: name,
         course: course,
         age: age,
       });
   
-    const response = await axios.get(
-      "http://localhost:5000/students"
-    );
+    const response = await axios.get(`${API_URL}/students`);
     setStudents(response.data);
     setName("");
     setCourse("");
@@ -35,9 +33,9 @@ function App() {
   };
 
   const deleteStudent = async (id) => {
-    await axios.delete(`http://localhost:5000/students/${id}`);
+    await axios.delete(`${API_URL}/students/${id}`);
     const response = await axios.get(
-      "http://localhost:5000/students"
+      `${API_URL}/students`
     );
     setStudents(response.data);
   };
@@ -51,7 +49,7 @@ function App() {
 
   const updateStudent = async () => {
     await axios.put(
-      `http://localhost:5000/students/${editingId}`,
+      `${API_URL}/students/${editingId}`,
       {
         name: name,
         course: course,
@@ -60,7 +58,7 @@ function App() {
     );
 
     const response = await axios.get(
-      "http://localhost:5000/students"
+      `${API_URL}/students`
     );
     setStudents(response.data);
     setEditingId(null);
