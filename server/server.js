@@ -43,6 +43,12 @@ app.delete("/students/:id", async (req, res) => {
     );
     res.json(student);
 });
-app.listen(5000, () => {
-    console.log("Server running on port 5000");
+
+if (require.main === module) {
+    app.listen(5000, () => {
+        console.log("Server running on port 5000");
+    
 });
+}
+
+module.exports = app;
